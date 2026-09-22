@@ -1,0 +1,8 @@
+streamlit
+pandas
+openpyxl
+requests
+python-docx
+pdfplumber
+anydoc
+paddleocr

@@ -1,0 +1,109 @@
+{
+  "name": "document_validation_result",
+  "schema": {
+    "type": "object",
+    "properties": {
+      "detected_languages": {
+        "type": "array",
+        "items": { "type": "string" },
+        "description": "Языки, реально встречающиеся в теле документа (напр. ['ru'], ['ru','en'])"
+      },
+      "single_language_ok": {
+        "type": "boolean",
+        "description": "true, если документ выдержан на одном языке (п.2.3: 1 язык - 1 документ)"
+      },
+      "structure": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "enum": ["ok", "partial", "issues"]
+          },
+          "has_headings": { "type": "boolean" },
+          "has_section_division": { "type": "boolean" },
+          "tables_figures_captioned": { "type": "boolean" },
+          "tables_figures_isolated_in_paragraphs": {
+            "type": "boolean",
+            "description": "true если картинки/таблицы/скриншоты вынесены отдельными абзацами, а не вклеены прямо в строку текста"
+          },
+          "multiple_processes_separated": {
+            "type": ["boolean", "null"],
+            "description": "null если в документе один процесс и вопрос неприменим"
+          },
+          "looks_like_merged_unstructured_regulations": { "type": "boolean" },
+          "looks_like_draft_material": { "type": "boolean" },
+          "findings": {
+            "type": "array",
+            "items": { "type": "string" },
+            "description": "Конкретные проблемы с краткой цитатой/указанием места"
+          }
+        },
+        "required": ["status", "has_headings", "has_section_division",
+          "tables_figures_captioned", "tables_figures_isolated_in_paragraphs",
+          "looks_like_merged_unstructured_regulations", "looks_like_draft_material", "findings"]
+      },
+      "language_style": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "enum": ["ok", "partial", "issues"]
+          },
+          "plain_business_language": { "type": "boolean" },
+          "abbreviations_undecoded": {
+            "type": "array",
+            "items": { "type": "string" },
+            "description": "Аббревиатуры, встреченные без расшифровки при первом употреблении"
+          },
+          "has_glossary": { "type": "boolean" },
+          "findings": {
+            "type": "array",
+            "items": { "type": "string" }
+          }
+        },
+        "required": ["status", "plain_business_language", "abbreviations_undecoded", "has_glossary", "findings"]
+      },
+      "currency_signals": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "enum": ["ok", "needs_manual_check", "issues"]
+          },
+          "version_or_date_found": { "type": ["string", "null"] },
+          "outdated_markers_found": {
+            "type": "array",
+            "items": { "type": "string" },
+            "description": "Фразы-маркеры устаревания: 'старая версия', 'заменено на...', 'не используется' и т.п."
+          },
+          "findings": {
+            "type": "array",
+            "items": { "type": "string" }
+          }
+        },
+        "required": ["status", "version_or_date_found", "outdated_markers_found", "findings"]
+      },
+      "internal_duplication": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "enum": ["ok", "issues"]
+          },
+          "duplicated_fragments_found": {
+            "type": "array",
+            "items": { "type": "string" }
+          },
+          "findings": {
+            "type": "array",
+            "items": { "type": "string" }
+          }
+        },
+        "required": ["status", "duplicated_fragments_found", "findings"]
+      },
+      "overall_summary": { "type": "string" }
+    },
+    "required": ["detected_languages", "single_language_ok", "structure",
+      "language_style", "currency_signals", "internal_duplication", "overall_summary"]
+  }
+}
