@@ -54,9 +54,9 @@ if run_button and uploaded_files:
         valid.Config.TEST_MODE = False
 
         # API-параметры — можно вынести в поля UI или в secrets
-        valid.Config.API_URL = st.secrets.get("API_URL", valid.Config.API_URL)
-        valid.Config.MODEL = st.secrets.get("MODEL", valid.Config.MODEL)
-        valid.Config.TOKEN = st.secrets.get("TOKEN", valid.Config.TOKEN)
+        valid.Config.API_URL = st.secrets["API_URL"]
+        valid.Config.MODEL = st.secrets["MODEL"]
+        valid.Config.TOKEN = st.secrets["TOKEN"]
 
         valid.SCHEMA = valid.load_schema("schema.json")
         if valid.SCHEMA is None:
